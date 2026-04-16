@@ -1,0 +1,22 @@
+{
+  "name": "EmergencyContact",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of the user"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the emergency contact"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "relationship": {
+      "type": "string",
+      "enum": ["Family", "Doctor", "Friend", "Other"]
+    }
+  }
+}

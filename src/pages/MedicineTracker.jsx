@@ -1,0 +1,144 @@
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Plus, Clock, Pill, Trash2, CheckCircle2, Circle } from 'lucide-react';
+
+export default function MedicineTracker() {
+  const [medicines, setMedicines] = useState([
+    { id: 1, name: "Paracetamol", dosage: "500mg", time: "09:00 AM", taken: true },
+    { id: 2, name: "Vitamin C", dosage: "1000mg", time: "01:00 PM", taken: false },
+    { id: 3, name: "Amoxicillin", dosage: "250mg", time: "09:00 PM", taken: false },
+  ]);
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newMed, setNewMed] = useState({ name: '', dosage: '', time: '' });
+
+  const toggleTaken = (id) => {
+    setMedicines(medicines.map(med => 
+      med.id === id ? { ...med, taken: !med.taken } : med
+    ));
+  };
+
+  const deleteMedicine = (id) => {
+    setMedicines(medicines.filter(med => med.id !== id));
+  };
+
+  const handleAddMedicine = (e) => {
+    e.preventDefault();
+    if (!newMed.name || !newMed.time) return;
+    
+    setMedicines([
+      ...medicines,
+      { id: Date.now(), ...newMed, taken: false }
+    ]);
+    setNewMed({ name: '', dosage: '', time: '' });
+    setShowAddForm(false);
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Medicine Tracker</h1>
+          <p className="text-slate-500 mt-1">Manage your daily prescriptions and reminders</p>
+        </div>
+        <Button onClick={() => setShowAddForm(!showAddForm)} className="gap-2 bg-teal-600 hover:bg-teal-700">
+          <Plus className="h-4 w-4" />
+          Add Medicine
+        </Button>
+      </div>
+
+      {showAddForm && (
+        <Card className="bg-slate-50 border-teal-200">
+          <CardHeader>
+            <CardTitle className="text-lg">Add New Medicine</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleAddMedicine} className="grid md:grid-cols-4 gap-4 items-end">
+              <div className="md:col-span-2">
+                <label className="text-sm font-medium text-slate-700 mb-1 block">Medicine Name</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Aspirin"
+                  className="w-full px-3 py-2 rounded-md border border-slate-300"
+                  value={newMed.name}
+                  onChange={e => setNewMed({...newMed, name: e.target.value})}
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-slate-700 mb-1 block">Dosage</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. 500mg"
+                  className="w-full px-3 py-2 rounded-md border border-slate-300"
+                  value={newMed.dosage}
+                  onChange={e => setNewMed({...newMed, dosage: e.target.value})}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-slate-700 mb-1 block">Time</label>
+                <input 
+                  type="time" 
+                  className="w-full px-3 py-2 rounded-md border border-slate-300"
+                  value={newMed.time}
+                  onChange={e => setNewMed({...newMed, time: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="md:col-span-4 flex justify-end gap-2 mt-2">
+                <Button type="button" variant="ghost" onClick={() => setShowAddForm(false)}>Cancel</Button>
+                <Button type="submit" className="bg-teal-600 text-white">Save Medicine</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="grid gap-4">
+        {medicines.map((med) => (
+          <div 
+            key={med.id} 
+            className={`
+              flex items-center justify-between p-4 rounded-lg border transition-all
+              ${med.taken ? 'bg-slate-50 border-slate-200 opacity-75' : 'bg-white border-slate-200 shadow-sm hover:shadow-md'}
+            `}
+          >
+            <div className="flex items-center gap-4">
+              <button onClick={() => toggleTaken(med.id)} className="focus:outline-none">
+                {med.taken ? (
+                  <CheckCircle2 className="h-8 w-8 text-green-500" />
+                ) : (
+                  <Circle className="h-8 w-8 text-slate-300 hover:text-teal-500" />
+                )}
+              </button>
+              <div>
+                <h3 className={`font-semibold text-lg ${med.taken ? 'text-slate-500 line-through' : 'text-slate-900'}`}>
+                  {med.name}
+                </h3>
+                <div className="flex items-center gap-4 text-sm text-slate-500">
+                  <span className="flex items-center gap-1">
+                    <Pill className="h-3 w-3" /> {med.dosage}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" /> {med.time}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <Button variant="ghost" size="icon" onClick={() => deleteMedicine(med.id)} className="text-slate-400 hover:text-red-500">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+        
+        {medicines.length === 0 && (
+          <div className="text-center py-12 text-slate-500 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+            No medicines added yet.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

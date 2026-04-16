@@ -1,0 +1,32 @@
+{
+  "name": "MedicineReminder",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of the user"
+    },
+    "medicine_name": {
+      "type": "string",
+      "description": "Name of the medicine"
+    },
+    "dosage": {
+      "type": "string",
+      "description": "Dosage information (e.g., 1 tablet, 5ml)"
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "Once daily",
+        "Twice daily",
+        "Thrice daily",
+        "Every 4 hours",
+        "As needed"
+      ]
+    },
+    "time": {
+      "type": "string",
+      "description": "Time to take the medicine (HH:MM)"
+    }
+  }
+}
