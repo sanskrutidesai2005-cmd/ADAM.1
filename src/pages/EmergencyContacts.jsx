@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { getTranslation } from '@/translations';
 import { Phone, Siren, Flame, HeartPulse, PersonStanding, Brain, Syringe, Baby, User, CloudSun } from 'lucide-react';
 
 export default function EmergencyContacts() {
@@ -20,12 +21,12 @@ export default function EmergencyContacts() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-slate-900">Emergency Contacts</h1>
-        <p className="text-slate-500 mt-2">Quick access to important healthcare and emergency numbers</p>
+        <h1 className="text-3xl font-bold text-slate-900">{getTranslation('emergencyTitle')}</h1>
+        <p className="text-slate-500 mt-2">{getTranslation('emergencySubtitle')}</p>
       </div>
 
       <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-center">
-        In case of medical emergency, call your local emergency number immediately or go to the nearest hospital.
+        {getTranslation('emergencyWarning')}
       </div>
 
       <div className="grid gap-4 md:grid-cols-1">
@@ -39,13 +40,13 @@ export default function EmergencyContacts() {
                 <div>
                   <h3 className="font-bold text-md text-slate-800">{contact.name}</h3>
                   <p className="text-slate-500 text-sm">{contact.description}</p>
-                  <p className="text-xs text-slate-400 mt-1">Available: 24/7 • Region: National (India)</p>
+                  <p className="text-xs text-slate-400 mt-1">{getTranslation('availableRegion')}</p>
                 </div>
               </div>
               <Button asChild size="default" className="bg-red-600 hover:bg-red-700 text-white">
                 <a href={`tel:${contact.number}`}>
                   <Phone className="h-4 w-4 mr-2" />
-                  Call Now
+                  {getTranslation('callNow')}
                 </a>
               </Button>
             </CardContent>

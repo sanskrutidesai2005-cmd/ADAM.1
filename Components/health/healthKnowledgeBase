@@ -1,0 +1,332 @@
+// Rule-based health knowledge database
+// This contains conditions, their symptoms, and treatment suggestions
+
+export const HEALTH_CONDITIONS = {
+  // Common Cold & Flu
+  common_cold: {
+    name: "Common Cold",
+    symptoms: ["Runny nose", "Nasal congestion", "Sore throat", "Cough", "Sneezing", "Mild fever", "Fatigue"],
+    severity: "Mild",
+    explanation: "A viral infection affecting the nose and throat. Usually harmless and resolves within 7-10 days.",
+    medicines: {
+      child: {
+        primary: "Paracetamol syrup (250mg) - 5ml every 6 hours",
+        alternate: "Ibuprofen syrup - As per doctor's advice",
+        duration: "5-7 days"
+      },
+      adult: {
+        primary: "Paracetamol 500mg - 1 tablet every 6 hours",
+        alternate: "Cetirizine 10mg - 1 tablet once daily for nasal symptoms",
+        duration: "5-7 days"
+      },
+      elderly: {
+        primary: "Paracetamol 500mg - 1 tablet every 8 hours (reduce frequency)",
+        alternate: "Vitamin C supplements - 500mg daily",
+        duration: "7 days"
+      }
+    },
+    precautions: "Rest well, drink plenty of fluids, avoid cold exposure"
+  },
+
+  seasonal_flu: {
+    name: "Seasonal Flu (Influenza)",
+    symptoms: ["High fever", "Body ache", "Fatigue", "Headache", "Cough", "Sore throat", "Chills"],
+    severity: "Moderate",
+    explanation: "A more severe viral infection than common cold, affecting the respiratory system. Can last 1-2 weeks.",
+    medicines: {
+      child: {
+        primary: "Paracetamol syrup - As per weight-based dosing",
+        alternate: "Plenty of rest and hydration",
+        duration: "7-10 days"
+      },
+      adult: {
+        primary: "Paracetamol 650mg - 1 tablet every 8 hours",
+        alternate: "Ibuprofen 400mg - 1 tablet every 8 hours (if no stomach issues)",
+        duration: "7-10 days"
+      },
+      elderly: {
+        primary: "Paracetamol 500mg with increased rest",
+        alternate: "Consult doctor for antiviral medications",
+        duration: "10-14 days"
+      }
+    },
+    precautions: "Isolate yourself, wear mask, rest completely, monitor temperature"
+  },
+
+  // Digestive Issues
+  gastroenteritis: {
+    name: "Gastroenteritis (Stomach Flu)",
+    symptoms: ["Diarrhea", "Vomiting", "Nausea", "Stomach pain", "Fever", "Loss of appetite"],
+    severity: "Moderate",
+    explanation: "Inflammation of stomach and intestines, usually caused by viral or bacterial infection.",
+    medicines: {
+      child: {
+        primary: "ORS (Oral Rehydration Solution) - Frequent small sips",
+        alternate: "Zinc supplements - As per pediatrician",
+        duration: "3-5 days"
+      },
+      adult: {
+        primary: "ORS sachets - 1 sachet in 1 liter water, drink frequently",
+        alternate: "Loperamide 2mg (for diarrhea) - Only if no fever",
+        duration: "3-5 days"
+      },
+      elderly: {
+        primary: "ORS solution with close monitoring",
+        alternate: "Probiotic supplements - 1 capsule twice daily",
+        duration: "5-7 days"
+      }
+    },
+    precautions: "Stay hydrated, eat bland food (rice, banana), avoid dairy initially"
+  },
+
+  acid_reflux: {
+    name: "Acid Reflux (Heartburn)",
+    symptoms: ["Heartburn", "Chest pain", "Nausea", "Bloating", "Sour taste in mouth"],
+    severity: "Mild",
+    explanation: "Stomach acid flows back into the food pipe, causing burning sensation in the chest.",
+    medicines: {
+      child: {
+        primary: "Lifestyle changes - Small frequent meals",
+        alternate: "Antacids (child formulation) - Only after doctor consultation",
+        duration: "As needed"
+      },
+      adult: {
+        primary: "Omeprazole 20mg - 1 capsule before breakfast",
+        alternate: "Antacid syrup (Digene/ENO) - 2 teaspoons when needed",
+        duration: "2 weeks"
+      },
+      elderly: {
+        primary: "Pantoprazole 40mg - 1 tablet before meals",
+        alternate: "Ranitidine 150mg - 1 tablet twice daily",
+        duration: "4 weeks"
+      }
+    },
+    precautions: "Avoid spicy/oily food, don't lie down immediately after eating"
+  },
+
+  // Respiratory
+  bronchitis: {
+    name: "Acute Bronchitis",
+    symptoms: ["Persistent cough", "Chest pain", "Shortness of breath", "Wheezing", "Fatigue", "Mild fever"],
+    severity: "Moderate",
+    explanation: "Inflammation of the bronchial tubes (airways) in the lungs, often after a cold or flu.",
+    medicines: {
+      child: {
+        primary: "Steam inhalation, honey (if above 1 year)",
+        alternate: "Consult pediatrician for cough syrup",
+        duration: "10-14 days"
+      },
+      adult: {
+        primary: "Cough expectorant syrup - 2 teaspoons three times daily",
+        alternate: "Ambroxol 30mg - 1 tablet three times daily",
+        duration: "7-10 days"
+      },
+      elderly: {
+        primary: "Antibiotic (if prescribed) + Cough medicine",
+        alternate: "Bronchodilator inhaler if wheezing present",
+        duration: "10-14 days"
+      }
+    },
+    precautions: "Avoid smoking/smoke, rest, drink warm fluids, use humidifier"
+  },
+
+  // Skin Conditions
+  fungal_infection: {
+    name: "Fungal Skin Infection",
+    symptoms: ["Rash", "Itching", "Redness", "Circular patches", "Scaling"],
+    severity: "Mild",
+    explanation: "Fungal infections on skin caused by fungi, common in warm and moist areas.",
+    medicines: {
+      child: {
+        primary: "Clotrimazole cream - Apply twice daily",
+        alternate: "Keep area dry and clean",
+        duration: "2-3 weeks"
+      },
+      adult: {
+        primary: "Clotrimazole + Beclometasone cream - Apply twice daily",
+        alternate: "Terbinafine cream - Apply once daily",
+        duration: "2-4 weeks"
+      },
+      elderly: {
+        primary: "Antifungal cream + Oral antifungal if severe",
+        alternate: "Fluconazole 150mg - Once weekly (if prescribed)",
+        duration: "3-4 weeks"
+      }
+    },
+    precautions: "Keep affected area dry, wear loose cotton clothes, avoid sharing towels"
+  },
+
+  allergic_rash: {
+    name: "Allergic Skin Rash",
+    symptoms: ["Rash", "Itching", "Redness", "Swelling", "Bumps"],
+    severity: "Mild",
+    explanation: "Skin reaction to an allergen like food, medicine, or environmental factors.",
+    medicines: {
+      child: {
+        primary: "Cetirizine syrup - 2.5ml once daily",
+        alternate: "Calamine lotion - Apply on affected area",
+        duration: "3-5 days"
+      },
+      adult: {
+        primary: "Cetirizine 10mg - 1 tablet once daily",
+        alternate: "Hydrocortisone cream 1% - Apply twice daily",
+        duration: "5-7 days"
+      },
+      elderly: {
+        primary: "Levocetirizine 5mg - 1 tablet at bedtime",
+        alternate: "Antihistamine cream + oral antihistamine",
+        duration: "7 days"
+      }
+    },
+    precautions: "Identify and avoid allergen, don't scratch, take cool showers"
+  },
+
+  // Pain & Inflammation
+  headache_migraine: {
+    name: "Headache / Migraine",
+    symptoms: ["Headache", "Sensitivity to light", "Nausea", "Throbbing pain"],
+    severity: "Mild to Moderate",
+    explanation: "Severe headache often accompanied by nausea and sensitivity to light and sound.",
+    medicines: {
+      child: {
+        primary: "Paracetamol syrup - Weight-based dosing",
+        alternate: "Rest in dark quiet room",
+        duration: "As needed"
+      },
+      adult: {
+        primary: "Paracetamol 500mg + Caffeine - 1-2 tablets",
+        alternate: "Ibuprofen 400mg - 1 tablet",
+        duration: "As needed, max 3 days continuously"
+      },
+      elderly: {
+        primary: "Paracetamol 500mg - 1 tablet",
+        alternate: "Consult doctor if frequent migraines",
+        duration: "As needed"
+      }
+    },
+    precautions: "Rest in dark room, stay hydrated, avoid triggers"
+  },
+
+  body_ache: {
+    name: "General Body Ache / Myalgia",
+    symptoms: ["Muscle pain", "Body ache", "Joint pain", "Stiffness", "Fatigue"],
+    severity: "Mild",
+    explanation: "Muscle pain throughout the body, often due to overexertion, stress, or viral infections.",
+    medicines: {
+      child: {
+        primary: "Rest and gentle massage",
+        alternate: "Paracetamol if pain is severe",
+        duration: "2-3 days"
+      },
+      adult: {
+        primary: "Ibuprofen 400mg - 1 tablet twice daily after food",
+        alternate: "Paracetamol 500mg - 1 tablet three times daily",
+        duration: "3-5 days"
+      },
+      elderly: {
+        primary: "Paracetamol 500mg (safer for elderly)",
+        alternate: "Topical pain relief cream",
+        duration: "5-7 days"
+      }
+    },
+    precautions: "Rest, warm compress, stay hydrated, gentle stretching"
+  },
+
+  // Fever
+  viral_fever: {
+    name: "Viral Fever",
+    symptoms: ["Fever", "Fatigue", "Body ache", "Weakness", "Loss of appetite", "Headache"],
+    severity: "Mild to Moderate",
+    explanation: "Fever caused by viral infection, body's natural response to fight the virus.",
+    medicines: {
+      child: {
+        primary: "Paracetamol syrup - Every 6-8 hours if fever above 100°F",
+        alternate: "Sponging with lukewarm water",
+        duration: "3-5 days"
+      },
+      adult: {
+        primary: "Paracetamol 500mg - 1 tablet every 6 hours",
+        alternate: "Ibuprofen 400mg - If paracetamol insufficient",
+        duration: "3-5 days"
+      },
+      elderly: {
+        primary: "Paracetamol 500mg - Every 8 hours",
+        alternate: "Monitor closely, consult doctor if fever persists",
+        duration: "5 days"
+      }
+    },
+    precautions: "Rest, drink plenty of fluids, monitor temperature, seek doctor if above 103°F"
+  },
+
+  // Urinary Issues
+  urinary_tract_infection: {
+    name: "Urinary Tract Infection (UTI)",
+    symptoms: ["Frequent urination", "Burning sensation while urinating", "Cloudy urine", "Lower abdominal pain"],
+    severity: "Moderate",
+    explanation: "Bacterial infection in the urinary system, more common in women.",
+    medicines: {
+      child: {
+        primary: "Antibiotic - Must consult pediatrician",
+        alternate: "Increase fluid intake",
+        duration: "5-7 days"
+      },
+      adult: {
+        primary: "Antibiotic (Nitrofurantoin/Norfloxacin) - As prescribed by doctor",
+        alternate: "Cranberry juice, alkaline agents",
+        duration: "5-7 days"
+      },
+      elderly: {
+        primary: "Antibiotic course - Doctor prescription mandatory",
+        alternate: "Increased hydration",
+        duration: "7-10 days"
+      }
+    },
+    precautions: "Drink lots of water, don't hold urine, maintain hygiene"
+  }
+};
+
+// Function to match symptoms to conditions
+export function matchSymptoms(selectedSymptoms) {
+  const matches = [];
+
+  Object.keys(HEALTH_CONDITIONS).forEach(conditionKey => {
+    const condition = HEALTH_CONDITIONS[conditionKey];
+    
+    // Calculate match score
+    let matchCount = 0;
+    selectedSymptoms.forEach(symptom => {
+      if (condition.symptoms.some(cs => 
+        cs.toLowerCase().includes(symptom.toLowerCase()) || 
+        symptom.toLowerCase().includes(cs.toLowerCase())
+      )) {
+        matchCount++;
+      }
+    });
+
+    if (matchCount > 0) {
+      const matchPercentage = Math.round((matchCount / condition.symptoms.length) * 100);
+      matches.push({
+        condition: conditionKey,
+        name: condition.name,
+        match_percentage: matchPercentage,
+        matched_symptoms: matchCount,
+        severity: condition.severity,
+        explanation: condition.explanation,
+        medicines: condition.medicines,
+        precautions: condition.precautions
+      });
+    }
+  });
+
+  // Sort by match percentage and return top 3
+  return matches
+    .sort((a, b) => b.match_percentage - a.match_percentage)
+    .slice(0, 3);
+}
+
+// Function to get age-appropriate medicine
+export function getMedicineByAge(medicines, age) {
+  if (age < 12) return medicines.child;
+  if (age >= 60) return medicines.elderly;
+  return medicines.adult;
+}

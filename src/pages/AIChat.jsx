@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import { getTranslation } from '@/translations';
 import { Bot, Send, Trash2 } from 'lucide-react';
 
 const STORAGE_KEY = 'adam_ai_chat_v1';
@@ -23,8 +24,7 @@ function initialThread() {
     {
       id: 'assistant_welcome',
       role: 'assistant',
-      content:
-        'Hi! I’m your AI health assistant. Tell me your symptoms, how long you’ve had them, and your age.',
+      content: getTranslation('aiWelcome'),
       createdAt: Date.now()
     }
   ];
@@ -64,10 +64,10 @@ export default function AIChat() {
 
   const quickPrompts = useMemo(
     () => [
-      'I have fever and sore throat since yesterday.',
-      'I have headache and dizziness for 2 hours.',
-      'I have cough and fatigue for 3 days.',
-      'What should I do for stomach pain and nausea?'
+      getTranslation('prompt1'),
+      getTranslation('prompt2'),
+      getTranslation('prompt3'),
+      getTranslation('prompt4')
     ],
     []
   );
@@ -128,16 +128,16 @@ export default function AIChat() {
         <div className="mx-auto w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center mb-3">
           <Bot className="h-6 w-6" />
         </div>
-        <h1 className="text-3xl font-bold text-slate-900">AI Health Assistant</h1>
-        <p className="text-slate-500 mt-2">Chat about symptoms, wellness, and next steps</p>
+        <h1 className="text-3xl font-bold text-slate-900">{getTranslation('aiHealthAssistant')}</h1>
+        <p className="text-slate-500 mt-2">{getTranslation('aiChatDesc')}</p>
       </div>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between gap-3">
-          <CardTitle className="text-lg">Chat</CardTitle>
+          <CardTitle className="text-lg">{getTranslation('chat')}</CardTitle>
           <Button variant="outline" className="gap-2" onClick={clearChat} disabled={sending}>
             <Trash2 className="h-4 w-4" />
-            Clear
+            {getTranslation('clear')}
           </Button>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -162,7 +162,7 @@ export default function AIChat() {
               {sending && (
                 <div className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-slate-100 text-slate-900">
-                    Typing…
+                    {getTranslation('typing')}
                   </div>
                 </div>
               )}
@@ -185,7 +185,7 @@ export default function AIChat() {
           </div>
 
           <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            This chat provides general information only and is not a diagnosis. If you have severe symptoms, use Emergency Contacts.
+            {getTranslation('chatDisclaimer')}
           </div>
 
           <form

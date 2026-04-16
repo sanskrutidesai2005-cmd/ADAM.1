@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
+import { getTranslation } from '@/translations';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import DisclaimerBanner from '@/components/DisclaimerBanner';
@@ -12,7 +13,8 @@ import {
   ChevronRight,
   Heart,
   FileText,
-  CheckCircle2
+  CheckCircle2,
+  Activity
 } from 'lucide-react';
 
 export default function Home() {
@@ -47,29 +49,29 @@ export default function Home() {
 
   const quickActions = [
     {
-      title: 'Check Symptoms',
-      description: 'Enter your symptoms to get possible health insights',
+      title: getTranslation('checkSymptoms'),
+      description: getTranslation('checkSymptomsDesc'),
       icon: Stethoscope,
       link: '/symptoms',
       color: 'bg-sky-600',
     },
     {
-      title: 'Medicine Tracker',
-      description: 'Manage your medicine reminders',
+      title: getTranslation('medicineTracker'),
+      description: getTranslation('medicineTrackerDesc'),
       icon: Clock,
       link: '/medicines',
       color: 'bg-emerald-600',
     },
     {
-      title: 'My Profile',
-      description: 'Update your health information',
+      title: getTranslation('myProfile'),
+      description: getTranslation('myProfileDesc'),
       icon: User,
       link: '/profile',
       color: 'bg-purple-600',
     },
     {
-      title: 'Emergency Contacts',
-      description: 'Quick access to healthcare numbers',
+      title: getTranslation('emergencyContacts'),
+      description: getTranslation('emergencyContactsDesc'),
       icon: Phone,
       link: '/emergency',
       color: 'bg-red-600',
@@ -85,7 +87,7 @@ export default function Home() {
         </div>
         <div>
           <h1 className="text-4xl font-bold text-slate-900">ADAM</h1>
-          <p className="text-slate-500 mt-2">Advanced Detection & Assistance for Medical Awareness</p>
+          <p className="text-slate-500 mt-2">{getTranslation('ailmentDetection')}</p>
         </div>
       </div>
 
@@ -98,9 +100,7 @@ export default function Home() {
             {user?.name?.[0] || 'U'}
           </div>
           <div>
-            <h2 className="text-xl font-bold text-slate-900">
-              Welcome, {user?.name || 'User'}!
-            </h2>
+            <h2 className="text-xl font-bold text-slate-900">{getTranslation('welcome')}, {user?.name || 'User'}</h2>
             <p className="text-slate-500 text-sm">
               {profile ? `${profile.age} years • ${profile.gender || 'Unknown'}` : 'Complete your profile'}
             </p>
@@ -109,32 +109,38 @@ export default function Home() {
       </Card>
 
       {/* Quick Actions Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {quickActions.map((action) => {
-          const Icon = action.icon;
-          return (
-            <Link key={action.title} to={action.link} className="block group">
-              <Card className="h-full hover:shadow-md transition-shadow duration-200">
-                <CardContent className="p-6 flex items-center justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className={`p-3 rounded-xl ${action.color} text-white shadow-sm group-hover:scale-105 transition-transform duration-200`}>
-                      <Icon className="h-6 w-6" />
+      <div className="space-y-4">
+        <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+          <Activity className="h-5 w-5 text-sky-600" />
+          {getTranslation('quickActions')}
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {quickActions.map((action) => {
+            const Icon = action.icon;
+            return (
+              <Link key={action.title} to={action.link} className="block group">
+                <Card className="h-full hover:shadow-md transition-shadow duration-200">
+                  <CardContent className="p-6 flex items-center justify-between">
+                    <div className="flex items-start gap-4">
+                      <div className={`p-3 rounded-xl ${action.color} text-white shadow-sm group-hover:scale-105 transition-transform duration-200`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-slate-900">
+                          {action.title}
+                        </h3>
+                        <p className="text-sm text-slate-500 mt-1 line-clamp-2">
+                          {action.description}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-slate-900">
-                        {action.title}
-                      </h3>
-                      <p className="text-sm text-slate-500 mt-1 line-clamp-2">
-                        {action.description}
-                      </p>
-                    </div>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400 transition-colors" />
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
+                    <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400 transition-colors" />
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       {/* Recent Symptom Checks */}

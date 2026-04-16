@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import { getTranslation } from '@/translations';
 import { Calendar, ChevronRight, FileText } from 'lucide-react';
 
 export default function History() {
@@ -10,12 +11,12 @@ export default function History() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReports = async () => {
+    const fetchReports = () => {
       try {
-        const data = await base44.entities.SymptomReport.filter({});
-        setReports(data);
+        const data = JSON.parse(localStorage.getItem('adam_health_history') || '[]');
+        setReports(data.sort((a, b) => new Date(b.created_date) - new Date(a.created_date)));
       } catch (error) {
-        console.error("Failed to fetch reports", error);
+        console.error("Failed to fetch reports from local storage", error);
       } finally {
         setLoading(false);
       }
@@ -24,14 +25,14 @@ export default function History() {
   }, []);
 
   if (loading) {
-    return <div className="p-8 text-center text-slate-500">Loading history...</div>;
+    return <div className="p-8 text-center text-slate-500">{getTranslation('loading')}</div>;
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Health History</h1>
-        <p className="text-slate-500 mt-1">View your past symptom checks and analyses</p>
+        <h1 className="text-3xl font-bold text-slate-900">{getTranslation('healthHistory')}</h1>
+        <p className="text-slate-500 mt-1">{getTranslation('historyDesc')}</p>
       </div>
 
       <div className="grid gap-4">
@@ -69,10 +70,10 @@ export default function History() {
 
         {reports.length === 0 && (
           <div className="text-center py-12 text-slate-500 bg-slate-50 rounded-lg border border-dashed border-slate-300">
-            No history found. Start a check now!
+            {getTranslation('noHistory')}
             <div className="mt-4">
               <Link to="/symptoms">
-                <Button>Check Symptoms</Button>
+                <Button>{getTranslation('checkSymptoms')}</Button>
               </Link>
             </div>
           </div>

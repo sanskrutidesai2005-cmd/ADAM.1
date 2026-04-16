@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/utils';
 import { base44 } from '@/api/base44Client';
+import { getTranslation } from '@/translations';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/Footer';
 import { 
@@ -15,20 +16,39 @@ import {
   X,
   Heart,
   FileText,
-  LogOut
+  LogOut,
+  Globe,
+  ChevronDown,
+  Check
 } from 'lucide-react';
 
 export default function Layout({ children }) {
   const [user, setUser] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [language, setLanguage] = useState(() => localStorage.getItem('adam_language') || 'en');
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const languages = [
+    { code: 'en', name: 'English', label: 'EN' },
+    { code: 'hi', name: 'हिंदी (Hindi)', label: 'HI' },
+    { code: 'mr', name: 'मराठी (Marathi)', label: 'MR' }
+  ];
+
+  const handleLanguageChange = (code) => {
+    setLanguage(code);
+    localStorage.setItem('adam_language', code);
+    setLangMenuOpen(false);
+    // In a real app, this would trigger i18n change
+    window.location.reload(); // Simple way to reset state for now
+  };
 
   useEffect(() => {
     // Check if user is logged in
     const token = localStorage.getItem('adam_auth_token');
-    if (!token && location.pathname !== '/login') {
-      navigate('/login');
+    if (!token && location.pathname !== '/auth') {
+      navigate('/auth');
     } else {
       loadUser();
     }
@@ -45,24 +65,22 @@ export default function Layout({ children }) {
 
   const handleLogout = () => {
     localStorage.removeItem('adam_auth_token');
+    localStorage.removeItem('adam_ai_chat_v1');
     base44.auth.logout();
-    navigate('/login');
+    navigate('/auth');
   };
 
   const navigation = [
-    { name: 'Home', icon: Home, path: '/' },
-    { name: 'Check Symptoms', icon: Stethoscope, path: '/symptoms' },
-    { name: 'AI Chat', icon: MessageCircle, path: '/chat' },
-    { name: 'Medicines', icon: Clock, path: '/medicines' },
-    { name: 'History', icon: FileText, path: '/history' },
-    { name: 'Emergency', icon: Phone, path: '/emergency' },
-    { name: 'Profile', icon: User, path: '/profile' },
+    { name: getTranslation('home'), icon: Home, path: '/' },
+    { name: getTranslation('checkSymptoms'), icon: Stethoscope, path: '/symptoms' },
+    { name: getTranslation('aiChat'), icon: MessageCircle, path: '/chat' },
+    { name: getTranslation('medicines'), icon: Clock, path: '/medicines' },
+    { name: getTranslation('history'), icon: FileText, path: '/history' },
+    { name: getTranslation('emergency'), icon: Phone, path: '/emergency' },
+    { name: getTranslation('profile'), icon: User, path: '/profile' },
   ];
 
-  // If we are on the login page, render children directly without the layout frame
-  if (location.pathname === '/login') {
-    return <>{children}</>;
-  }
+
 
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans text-slate-900">
@@ -76,7 +94,7 @@ export default function Layout({ children }) {
             </div>
             <div className="flex flex-col leading-none">
               <span className="text-lg">ADAM</span>
-              <span className="text-[10px] font-normal text-slate-500 uppercase tracking-wider">Health Assistant</span>
+              <span className="text-[10px] font-normal text-slate-500 uppercase tracking-wider">{getTranslation('healthAssistant')}</span>
             </div>
           </Link>
 
@@ -103,8 +121,46 @@ export default function Layout({ children }) {
             })}
           </nav>
 
-          {/* User / Mobile Menu Toggle */}
-          <div className="flex items-center gap-4">
+          {/* User / Mobile Menu Toggle / Language Selector */}
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Language Selector */}
+            <div className="relative">
+              <button 
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-all"
+              >
+                <Globe className="h-4 w-4 text-teal-600" />
+                <span>{languages.find(l => l.code === language)?.label}</span>
+                <ChevronDown className={cn("h-3 w-3 transition-transform", langMenuOpen && "rotate-180")} />
+              </button>
+
+              {langMenuOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-[60]" 
+                    onClick={() => setLangMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-xl z-[70] py-1">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => handleLanguageChange(lang.code)}
+                        className={cn(
+                          "w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center justify-between",
+                          language === lang.code 
+                            ? "bg-teal-50 text-teal-700 font-semibold" 
+                            : "text-slate-600 hover:bg-slate-50"
+                        )}
+                      >
+                        {lang.name}
+                        {language === lang.code && <Check className="h-4 w-4 text-teal-600" />}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
             {user ? (
               <div className="hidden lg:flex items-center gap-4 pl-4 border-l border-slate-200">
                 <div className="flex items-center gap-2 text-sm text-slate-600">
@@ -118,13 +174,13 @@ export default function Layout({ children }) {
                   className="text-slate-500 hover:text-red-600 hover:bg-red-50 border-slate-200"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
-                  Logout
+                  {getTranslation('logout')}
                 </Button>
               </div>
             ) : (
               <div className="hidden lg:block">
-                <Link to="/login">
-                  <Button size="sm">Sign In</Button>
+                <Link to="/auth">
+                  <Button size="sm">{getTranslation('signIn')}</Button>
                 </Link>
               </div>
             )}
@@ -169,7 +225,7 @@ export default function Layout({ children }) {
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-red-600 hover:bg-red-50 transition-colors w-full text-left"
             >
               <LogOut className="h-5 w-5" />
-              Logout
+              {getTranslation('logout')}
             </button>
           </nav>
         </div>

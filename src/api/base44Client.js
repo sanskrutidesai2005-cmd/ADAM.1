@@ -1,3 +1,5 @@
+import { getTranslation } from '../translations';
+
 export const base44 = {
   auth: {
     me: async () => {
@@ -100,14 +102,13 @@ export const base44 = {
         const gender = profile?.gender ?? null;
 
         if (!text.trim()) {
-          return { role: 'assistant', content: 'Tell me what you’re feeling and since when.' };
+          return { role: 'assistant', content: getTranslation('aiResponseTellMe') };
         }
 
         if (hasUrgent) {
           return {
             role: 'assistant',
-            content:
-              'This could be urgent. Please call your local emergency number or go to the nearest hospital now.\n\nIf you can, share: your location, symptoms, and when it started.'
+            content: getTranslation('aiResponseUrgent')
           };
         }
 
@@ -120,30 +121,26 @@ export const base44 = {
         const hasHeadacheLike = headacheLike.some((k) => text.includes(k));
 
         const introBits = [
-          'I can help you think through possibilities and next steps.',
-          age ? `Age: ${age}` : null,
-          gender ? `Sex: ${gender}` : null
+          getTranslation('aiResponseIntro'),
+          age ? `${getTranslation('age')}: ${age}` : null,
+          gender ? `${getTranslation('gender')}: ${getTranslation(gender.toLowerCase()) || gender}` : null
         ].filter(Boolean);
 
         let guidance = '';
 
         if (hasFeverLike) {
-          guidance =
-            'Based on what you shared, this may be a viral illness or upper respiratory infection.\n\nTry:\n- Rest and fluids\n- Monitor temperature\n- Seek medical advice if fever lasts >3 days, you feel worse, or you have breathing issues';
+          guidance = getTranslation('aiResponseFever');
         } else if (hasGiLike) {
-          guidance =
-            'This sounds like a stomach bug or food-related issue.\n\nTry:\n- Oral rehydration / small sips of fluids\n- Light foods if tolerated\n- Seek care if there is blood, severe pain, or dehydration';
+          guidance = getTranslation('aiResponseGI');
         } else if (hasHeadacheLike) {
-          guidance =
-            'Headache can have many causes (stress, dehydration, sleep issues).\n\nTry:\n- Water and rest\n- Reduce screen time\n- Seek care if it’s sudden/severe, with weakness, confusion, or vision changes';
+          guidance = getTranslation('aiResponseHeadache');
         } else {
-          guidance =
-            'To guide you better, answer these:\n- What symptoms do you have?\n- Since when did it start?\n- Any fever, chest pain, breathing issues, or severe pain?\n- Any existing conditions or current medicines?';
+          guidance = getTranslation('aiResponseGeneral');
         }
 
         return {
           role: 'assistant',
-          content: `${introBits.join(' • ')}\n\n${guidance}\n\nThis is general information, not a medical diagnosis.`
+          content: `${introBits.join(' • ')}\n\n${guidance}\n\n${getTranslation('aiResponseDisclaimer')}`
         };
       }
     }

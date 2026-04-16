@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { getTranslation } from '@/translations';
 import { Plus, Clock, Pill, Trash2, CheckCircle2, Circle } from 'lucide-react';
 
 export default function MedicineTracker() {
@@ -39,24 +40,24 @@ export default function MedicineTracker() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Medicine Tracker</h1>
-          <p className="text-slate-500 mt-1">Manage your daily prescriptions and reminders</p>
+          <h1 className="text-3xl font-bold text-slate-900">{getTranslation('medicineTitle')}</h1>
+          <p className="text-slate-500 mt-1">{getTranslation('medicineSubtitle')}</p>
         </div>
         <Button onClick={() => setShowAddForm(!showAddForm)} className="gap-2 bg-teal-600 hover:bg-teal-700">
           <Plus className="h-4 w-4" />
-          Add Medicine
+          {getTranslation('addMedicine')}
         </Button>
       </div>
 
       {showAddForm && (
         <Card className="bg-slate-50 border-teal-200">
           <CardHeader>
-            <CardTitle className="text-lg">Add New Medicine</CardTitle>
+            <CardTitle className="text-lg">{getTranslation('addNewMedicine')}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleAddMedicine} className="grid md:grid-cols-4 gap-4 items-end">
               <div className="md:col-span-2">
-                <label className="text-sm font-medium text-slate-700 mb-1 block">Medicine Name</label>
+                <label className="text-sm font-medium text-slate-700 mb-1 block">{getTranslation('medicineName')}</label>
                 <input 
                   type="text" 
                   placeholder="e.g. Aspirin"
@@ -67,7 +68,7 @@ export default function MedicineTracker() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-700 mb-1 block">Dosage</label>
+                <label className="text-sm font-medium text-slate-700 mb-1 block">{getTranslation('dosage')}</label>
                 <input 
                   type="text" 
                   placeholder="e.g. 500mg"
@@ -77,7 +78,7 @@ export default function MedicineTracker() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-700 mb-1 block">Time</label>
+                <label className="text-sm font-medium text-slate-700 mb-1 block">{getTranslation('time')}</label>
                 <input 
                   type="time" 
                   className="w-full px-3 py-2 rounded-md border border-slate-300"
@@ -87,8 +88,8 @@ export default function MedicineTracker() {
                 />
               </div>
               <div className="md:col-span-4 flex justify-end gap-2 mt-2">
-                <Button type="button" variant="ghost" onClick={() => setShowAddForm(false)}>Cancel</Button>
-                <Button type="submit" className="bg-teal-600 text-white">Save Medicine</Button>
+                <Button type="button" variant="ghost" onClick={() => setShowAddForm(false)}>{getTranslation('cancel')}</Button>
+                <Button type="submit" className="bg-teal-600 text-white">{getTranslation('saveMedicine')}</Button>
               </div>
             </form>
           </CardContent>
@@ -135,7 +136,7 @@ export default function MedicineTracker() {
         
         {medicines.length === 0 && (
           <div className="text-center py-12 text-slate-500 bg-slate-50 rounded-lg border border-dashed border-slate-300">
-            No medicines added yet.
+            {getTranslation('noMedicines')}
           </div>
         )}
       </div>

@@ -8,14 +8,14 @@ import History from './pages/History';
 import EmergencyContacts from './pages/EmergencyContacts';
 import AIChat from './pages/AIChat';
 import Profile from './pages/Profile';
+import AuthPage from './pages/Auth';
 import ResultAnalysis from './pages/ResultAnalysis';
-import Login from './pages/Login';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<AuthPage />} />
         
         {/* Protected Routes */}
         <Route path="/" element={

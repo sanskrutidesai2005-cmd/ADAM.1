@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
-import { User, Mail, Activity, Droplet, Edit2, Save, X } from 'lucide-react';
+import { getTranslation } from '@/translations';
+import { User, Mail, Activity, Droplet, Edit2, Save, X, Thermometer, Wind, Scale, FileText } from 'lucide-react';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -33,6 +34,7 @@ export default function Profile() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log('Input changed:', { name, value });
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -54,23 +56,32 @@ export default function Profile() {
     setIsEditing(false);
   };
 
+  const calculateBmi = () => {
+    if (formData.height && formData.weight) {
+      const heightInMeters = formData.height / 100;
+      const bmi = (formData.weight / (heightInMeters * heightInMeters)).toFixed(1);
+      return bmi;
+    }
+    return '--';
+  };
+
   if (loading) return <div className="p-8 text-center">Loading profile...</div>;
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-slate-900">My Profile</h1>
+        <h1 className="text-3xl font-bold text-slate-900">{getTranslation('myProfileTitle')}</h1>
         {!isEditing ? (
           <Button onClick={() => setIsEditing(true)} className="flex items-center gap-2">
-            <Edit2 className="h-4 w-4" /> Edit Profile
+            <Edit2 className="h-4 w-4" /> {getTranslation('editProfile')}
           </Button>
         ) : (
           <div className="flex gap-2">
             <Button variant="outline" onClick={handleCancel} className="flex items-center gap-2 text-red-600 border-red-200 hover:bg-red-50">
-              <X className="h-4 w-4" /> Cancel
+              <X className="h-4 w-4" /> {getTranslation('cancel')}
             </Button>
             <Button onClick={handleSave} className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700">
-              <Save className="h-4 w-4" /> Save Changes
+              <Save className="h-4 w-4" /> {getTranslation('saveChanges')}
             </Button>
           </div>
         )}
@@ -92,14 +103,14 @@ export default function Profile() {
             </div>
             <div className="text-right">
               <span className="inline-block px-3 py-1 rounded-full bg-teal-100 text-teal-800 text-sm font-medium">
-                Active Member
+                {getTranslation('activeMember')}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-slate-100">
             <div>
-              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Age</label>
+              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">{getTranslation('age')}</label>
               {isEditing ? (
                 <input 
                   type="number" 
@@ -109,11 +120,11 @@ export default function Profile() {
                   className="w-full border rounded px-2 py-1"
                 />
               ) : (
-                <p className="text-lg font-medium text-slate-900">{profile?.age || '--'} years</p>
+                <p className="text-lg font-medium text-slate-900">{profile?.age || '--'} {getTranslation('years')}</p>
               )}
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Gender</label>
+              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">{getTranslation('gender')}</label>
               {isEditing ? (
                 <select 
                   name="gender" 
@@ -121,18 +132,18 @@ export default function Profile() {
                   onChange={handleInputChange}
                   className="w-full border rounded px-2 py-1"
                 >
-                  <option value="">Select</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  <option value="">{getTranslation('select')}</option>
+                  <option value="Male">{getTranslation('male')}</option>
+                  <option value="Female">{getTranslation('female')}</option>
+                  <option value="Other">{getTranslation('other')}</option>
                 </select>
               ) : (
-                <p className="text-lg font-medium text-slate-900">{profile?.gender || '--'}</p>
+                <p className="text-lg font-medium text-slate-900">{getTranslation(profile?.gender?.toLowerCase()) || profile?.gender || '--'}</p>
               )}
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1 block mb-1">
-                <Droplet className="h-3 w-3" /> Blood Type
+                <Droplet className="h-3 w-3" /> {getTranslation('bloodType')}
               </label>
               {isEditing ? (
                 <select 
@@ -141,7 +152,7 @@ export default function Profile() {
                   onChange={handleInputChange}
                   className="w-full border rounded px-2 py-1"
                 >
-                  <option value="">Select</option>
+                  <option value="">{getTranslation('select')}</option>
                   <option value="A+">A+</option>
                   <option value="A-">A-</option>
                   <option value="B+">B+</option>
@@ -157,9 +168,9 @@ export default function Profile() {
             </div>
             <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-                <Activity className="h-3 w-3" /> Status
+                <Activity className="h-3 w-3" /> {getTranslation('status')}
               </label>
-              <p className="text-lg font-medium text-green-600">Healthy</p>
+              <p className="text-lg font-medium text-green-600">{getTranslation('healthy')}</p>
             </div>
           </div>
         </CardContent>
@@ -167,73 +178,63 @@ export default function Profile() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Health Stats</CardTitle>
+          <CardTitle className="text-lg">{getTranslation('healthStats')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatBox isEditing={isEditing} name="blood_pressure" value={formData.blood_pressure} onChange={handleInputChange} label={getTranslation('bloodPressure')} placeholder="120/80" />
+            <StatBox isEditing={isEditing} name="heart_rate" value={formData.heart_rate} onChange={handleInputChange} label={getTranslation('heartRate')} placeholder="72 bpm" />
+            <StatBox isEditing={isEditing} name="weight" value={formData.weight} onChange={handleInputChange} label={getTranslation('weight')} placeholder="65 kg" />
+            <StatBox isEditing={isEditing} name="height" value={formData.height} onChange={handleInputChange} label={getTranslation('height')} placeholder="165 cm" />
+            <StatBox isEditing={isEditing} name="temperature" value={formData.temperature} onChange={handleInputChange} label={getTranslation('bodyTemperature')} placeholder="98.6°F" />
+            <StatBox isEditing={isEditing} name="spo2" value={formData.spo2} onChange={handleInputChange} label={getTranslation('spo2')} placeholder="98%" />
             <div className="p-4 rounded-lg bg-slate-50 border border-slate-100 text-center">
-              {isEditing ? (
-                 <input 
-                  type="text" 
-                  name="blood_pressure" 
-                  value={formData.blood_pressure || ''} 
-                  onChange={handleInputChange}
-                  className="w-full border rounded px-2 py-1 text-center font-bold text-lg mb-1"
-                  placeholder="120/80"
-                />
-              ) : (
-                <div className="text-2xl font-bold text-slate-900">{profile?.blood_pressure || '--'}</div>
-              )}
-              <div className="text-xs text-slate-500 uppercase mt-1">Blood Pressure</div>
-            </div>
-            <div className="p-4 rounded-lg bg-slate-50 border border-slate-100 text-center">
-               {isEditing ? (
-                 <input 
-                  type="text" 
-                  name="heart_rate" 
-                  value={formData.heart_rate || ''} 
-                  onChange={handleInputChange}
-                  className="w-full border rounded px-2 py-1 text-center font-bold text-lg mb-1"
-                  placeholder="72 bpm"
-                />
-              ) : (
-                <div className="text-2xl font-bold text-slate-900">{profile?.heart_rate || '--'}</div>
-              )}
-              <div className="text-xs text-slate-500 uppercase mt-1">Heart Rate</div>
-            </div>
-            <div className="p-4 rounded-lg bg-slate-50 border border-slate-100 text-center">
-               {isEditing ? (
-                 <input 
-                  type="text" 
-                  name="weight" 
-                  value={formData.weight || ''} 
-                  onChange={handleInputChange}
-                  className="w-full border rounded px-2 py-1 text-center font-bold text-lg mb-1"
-                  placeholder="65 kg"
-                />
-              ) : (
-                <div className="text-2xl font-bold text-slate-900">{profile?.weight || '--'}</div>
-              )}
-              <div className="text-xs text-slate-500 uppercase mt-1">Weight</div>
-            </div>
-             <div className="p-4 rounded-lg bg-slate-50 border border-slate-100 text-center">
-               {isEditing ? (
-                 <input 
-                  type="text" 
-                  name="height" 
-                  value={formData.height || ''} 
-                  onChange={handleInputChange}
-                  className="w-full border rounded px-2 py-1 text-center font-bold text-lg mb-1"
-                  placeholder="165 cm"
-                />
-              ) : (
-                <div className="text-2xl font-bold text-slate-900">{profile?.height || '--'}</div>
-              )}
-              <div className="text-xs text-slate-500 uppercase mt-1">Height</div>
+              <div className="text-2xl font-bold text-slate-900">{calculateBmi()}</div>
+              <div className="text-xs text-slate-500 uppercase mt-1">BMI</div>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <FileText className="h-5 w-5" /> Patient History
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {isEditing ? (
+            <textarea
+              name="history"
+              value={formData.history || ''}
+              onChange={handleInputChange}
+              className="w-full border rounded px-3 py-2"
+              rows="4"
+              placeholder="e.g., Allergic to Penicillin, History of Asthma"
+            ></textarea>
+          ) : (
+            <p className="text-slate-700 whitespace-pre-wrap">{profile?.history || 'No patient history provided.'}</p>
+          )}
         </CardContent>
       </Card>
     </div>
   );
 }
+
+const StatBox = ({ isEditing, name, value, onChange, label, placeholder }) => (
+  <div className="p-4 rounded-lg bg-slate-50 border border-slate-100 text-center">
+    {isEditing ? (
+      <input 
+        type="text" 
+        name={name} 
+        value={value || ''} 
+        onChange={onChange}
+        className="w-full border rounded px-2 py-1 text-center font-bold text-lg mb-1"
+        placeholder={placeholder}
+      />
+    ) : (
+      <div className="text-2xl font-bold text-slate-900">{value || '--'}</div>
+    )}
+    <div className="text-xs text-slate-500 uppercase mt-1">{label}</div>
+  </div>
+);
