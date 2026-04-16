@@ -52,8 +52,10 @@ export default function SymptomChecker() {
 
     const { diagnosis } = getDiagnosis(selectedSymptoms);
 
+    const currentUser = JSON.parse(localStorage.getItem('adam_current_user') || '{}');
     const newReport = {
       id: `report_${Date.now()}`,
+      user_email: currentUser.email,
       symptoms: selectedSymptoms.map(s => getTranslation(s)),
       diagnosis: diagnosis,
       created_date: new Date().toISOString()

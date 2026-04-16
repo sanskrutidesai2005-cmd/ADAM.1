@@ -65,6 +65,7 @@ export default function Layout({ children }) {
 
   const handleLogout = () => {
     localStorage.removeItem('adam_auth_token');
+    localStorage.removeItem('adam_current_user');
     localStorage.removeItem('adam_ai_chat_v1');
     base44.auth.logout();
     navigate('/auth');

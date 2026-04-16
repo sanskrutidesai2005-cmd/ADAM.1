@@ -69,15 +69,14 @@ const LoginForm = ({ navigate }) => {
     if (!isFormValid) return;
 
     const users = JSON.parse(localStorage.getItem('adam_users') || '[]');
-    console.log('Users retrieved from local storage:', users);
-    console.log('Attempting to log in with:', { email, password });
-    const user = users.find(u => u.email === email && u.password === password);
+    const user = users.find(u => u.email.toLowerCase().trim() === email.toLowerCase().trim() && u.password === password);
 
     if (user) {
       localStorage.setItem('adam_auth_token', 'mock_token_123');
+      localStorage.setItem('adam_current_user', JSON.stringify(user));
       navigate('/');
     } else {
-      alert('Invalid credentials');
+      alert('Invalid email or password');
     }
   };
 
@@ -182,6 +181,7 @@ const RegisterForm = ({ navigate }) => {
     console.log('All users in local storage:', users);
 
     localStorage.setItem('adam_auth_token', 'mock_token_123');
+    localStorage.setItem('adam_current_user', JSON.stringify(newUser));
     navigate('/');
   }
 

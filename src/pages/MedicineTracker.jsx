@@ -5,33 +5,64 @@ import { getTranslation } from '@/translations';
 import { Plus, Clock, Pill, Trash2, CheckCircle2, Circle } from 'lucide-react';
 
 export default function MedicineTracker() {
-  const [medicines, setMedicines] = useState([
-    { id: 1, name: "Paracetamol", dosage: "500mg", time: "09:00 AM", taken: true },
-    { id: 2, name: "Vitamin C", dosage: "1000mg", time: "01:00 PM", taken: false },
-    { id: 3, name: "Amoxicillin", dosage: "250mg", time: "09:00 PM", taken: false },
-  ]);
+  const [user, setUser] = useState(null);
+  const [medicines, setMedicines] = useState([]);
+
+  useEffect(() => {
+    const loadUserAndMeds = async () => {
+      const currentUser = await base44.auth.me();
+      setUser(currentUser);
+      if (currentUser) {
+        const stored = localStorage.getItem(`adam_medicines_${currentUser.email}`);
+        if (stored) {
+          setMedicines(JSON.parse(stored));
+        } else {
+          // Default medicines for first time
+          const defaults = [
+            { id: 1, name: "Paracetamol", dosage: "500mg", time: "09:00", taken: true },
+            { id: 2, name: "Vitamin C", dosage: "1000mg", time: "13:00", taken: false },
+          ];
+          setMedicines(defaults);
+          localStorage.setItem(`adam_medicines_${currentUser.email}`, JSON.stringify(defaults));
+        }
+      }
+    };
+    loadUserAndMeds();
+  }, []);
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newMed, setNewMed] = useState({ name: '', dosage: '', time: '' });
 
+  const saveToStorage = (updatedMeds) => {
+    if (user) {
+      localStorage.setItem(`adam_medicines_${user.email}`, JSON.stringify(updatedMeds));
+    }
+  };
+
   const toggleTaken = (id) => {
-    setMedicines(medicines.map(med => 
+    const updated = medicines.map(med => 
       med.id === id ? { ...med, taken: !med.taken } : med
-    ));
+    );
+    setMedicines(updated);
+    saveToStorage(updated);
   };
 
   const deleteMedicine = (id) => {
-    setMedicines(medicines.filter(med => med.id !== id));
+    const updated = medicines.filter(med => med.id !== id);
+    setMedicines(updated);
+    saveToStorage(updated);
   };
 
   const handleAddMedicine = (e) => {
     e.preventDefault();
     if (!newMed.name || !newMed.time) return;
     
-    setMedicines([
+    const updated = [
       ...medicines,
       { id: Date.now(), ...newMed, taken: false }
-    ]);
+    ];
+    setMedicines(updated);
+    saveToStorage(updated);
     setNewMed({ name: '', dosage: '', time: '' });
     setShowAddForm(false);
   };

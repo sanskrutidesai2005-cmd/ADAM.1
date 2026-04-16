@@ -11,12 +11,15 @@ export default function History() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReports = () => {
+    const fetchReports = async () => {
       try {
-        const data = JSON.parse(localStorage.getItem('adam_health_history') || '[]');
-        setReports(data.sort((a, b) => new Date(b.created_date) - new Date(a.created_date)));
+        const currentUser = await base44.auth.me();
+        if (currentUser) {
+          const data = await base44.entities.SymptomReport.filter({ user_email: currentUser.email });
+          setReports(data.sort((a, b) => new Date(b.created_date) - new Date(a.created_date)));
+        }
       } catch (error) {
-        console.error("Failed to fetch reports from local storage", error);
+        console.error("Failed to fetch reports", error);
       } finally {
         setLoading(false);
       }
