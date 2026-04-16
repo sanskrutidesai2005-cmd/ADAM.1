@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { base44 } from '@/api/base44Client';
 import { getTranslation } from '@/translations';
 import { Plus, Clock, Pill, Trash2, CheckCircle2, Circle } from 'lucide-react';
 
 export default function MedicineTracker() {
   const [user, setUser] = useState(null);
   const [medicines, setMedicines] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     const loadUserAndMeds = async () => {
       const currentUser = await base44.auth.me();
       setUser(currentUser);
       if (currentUser) {
+        // Load medicines
         const stored = localStorage.getItem(`adam_medicines_${currentUser.email}`);
         if (stored) {
           setMedicines(JSON.parse(stored));
         } else {
-          // Default medicines for first time
           const defaults = [
             { id: 1, name: "Paracetamol", dosage: "500mg", time: "09:00", taken: true },
             { id: 2, name: "Vitamin C", dosage: "1000mg", time: "13:00", taken: false },
@@ -25,10 +27,52 @@ export default function MedicineTracker() {
           setMedicines(defaults);
           localStorage.setItem(`adam_medicines_${currentUser.email}`, JSON.stringify(defaults));
         }
+
+        // Load recommendations based on latest report
+        const reports = await base44.entities.SymptomReport.filter({ user_email: currentUser.email });
+        if (reports.length > 0) {
+          const latest = reports.sort((a, b) => new Date(b.created_date) - new Date(a.created_date))[0];
+          const meds = getRecommendations(latest.diagnosis);
+          setRecommendations(meds);
+        }
       }
     };
     loadUserAndMeds();
   }, []);
+
+  const getRecommendations = (diagnosis) => {
+    const map = {
+      'Common Cold': [
+        { name: 'Paracetamol', dosage: '500mg', reason: 'For Fever' },
+        { name: 'Cetirizine', dosage: '100mg', reason: 'For Runny Nose' },
+        { name: 'Cough Syrup', dosage: '10ml', reason: 'For Cough' }
+      ],
+      'Gastroenteritis': [
+        { name: 'ORS', dosage: '200ml', reason: 'For Hydration' },
+        { name: 'Probiotics', dosage: '1 cap', reason: 'For Gut Health' }
+      ],
+      'Dehydration': [
+        { name: 'Electrolytes (ORS)', dosage: '500ml', reason: 'For Hydration' }
+      ],
+      'Viral Fever': [
+        { name: 'Paracetamol', dosage: '500mg', reason: 'For Fever' },
+        { name: 'Vitamin C', dosage: '1000mg', reason: 'For Immunity' }
+      ],
+      'Allergic Reaction': [
+        { name: 'Loratadine', dosage: '10mg', reason: 'For Allergy' }
+      ]
+    };
+    return map[diagnosis] || [];
+  };
+
+  const addRecommendedMed = (med) => {
+    const updated = [
+      ...medicines,
+      { id: Date.now(), name: med.name, dosage: med.dosage, time: "10:00", taken: false }
+    ];
+    setMedicines(updated);
+    saveToStorage(updated);
+  };
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newMed, setNewMed] = useState({ name: '', dosage: '', time: '' });
@@ -128,6 +172,37 @@ export default function MedicineTracker() {
       )}
 
       <div className="grid gap-4">
+        {recommendations.length > 0 && (
+          <Card className="bg-teal-50 border-teal-200">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg flex items-center gap-2 text-teal-800">
+                <Pill className="h-5 w-5" />
+                {getTranslation('recommendedForYou')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-3">
+                {recommendations.map((med, i) => (
+                  <div key={i} className="bg-white p-3 rounded-lg border border-teal-100 flex items-center justify-between gap-4 flex-1 min-w-[200px]">
+                    <div>
+                      <div className="font-semibold text-slate-900">{med.name}</div>
+                      <div className="text-xs text-slate-500">{med.dosage} • {med.reason}</div>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-xs h-8 border-teal-200 text-teal-700 hover:bg-teal-50"
+                      onClick={() => addRecommendedMed(med)}
+                    >
+                      {getTranslation('addToList')}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {medicines.map((med) => (
           <div 
             key={med.id} 

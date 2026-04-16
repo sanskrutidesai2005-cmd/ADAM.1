@@ -143,24 +143,13 @@ const translations = {
     medicineName: "Medicine Name",
     saveMedicine: "Save Medicine",
     noMedicines: "No medicines added yet.",
-
-    // Medicine Tracker
-    medicineTitle: "दवा ट्रैकर",
-    medicineSubtitle: "अपने दैनिक नुस्खे और रिमाइंडर प्रबंधित करें",
-    addMedicine: "दवा जोड़ें",
-    addNewMedicine: "नई दवा जोड़ें",
-    medicineName: "दवा का नाम",
-    saveMedicine: "दवा सहेजें",
-    noMedicines: "अभी तक कोई दवा नहीं जोड़ी गई है।",
-
-    // Medicine Tracker
-    medicineTitle: "औषध ट्रॅकर",
-    medicineSubtitle: "तुमची दैनंदिन औषधे आणि स्मरणपत्रे व्यवस्थापित करा",
-    addMedicine: "औषध जोडा",
-    addNewMedicine: "नवीन औषध जोडा",
-    medicineName: "औषधाचे नाव",
-    saveMedicine: "औषध जतन करा",
-    noMedicines: "अद्याप कोणतीही औषधे जोडली नाहीत.",
+    recommendedForYou: "Recommended for your condition",
+    addToList: "Add to list",
+    commonColdMeds: "Paracetamol (for fever), Cetirizine (for runny nose), Cough Syrup",
+    gastroMeds: "ORS (for hydration), Loperamide (if severe), Probiotics",
+    dehydrationMeds: "Electrolytes (ORS), Plenty of Water, Coconut Water",
+    viralFeverMeds: "Paracetamol, Vitamin C, Plenty of Fluids",
+    allergyMeds: "Antihistamines (Loratadine), Nasal Spray",
 
     // AI Responses
     aiResponseTellMe: "Tell me what you’re feeling and since when.",
@@ -170,7 +159,26 @@ const translations = {
     aiResponseGI: "This sounds like a stomach bug or food-related issue.\n\nTry:\n- Oral rehydration / small sips of fluids\n- Light foods if tolerated\n- Seek care if there is blood, severe pain, or dehydration",
     aiResponseHeadache: "Headache can have many causes (stress, dehydration, sleep issues).\n\nTry:\n- Water and rest\n- Reduce screen time\n- Seek care if it’s sudden/severe, with weakness, confusion, or vision changes",
     aiResponseGeneral: "To guide you better, answer these:\n- What symptoms do you have?\n- Since when did it start?\n- Any fever, chest pain, breathing issues, or severe pain?\n- Any existing conditions or current medicines?",
-    aiResponseDisclaimer: "This is general information, not a medical diagnosis."
+    aiResponseDisclaimer: "This is general information, not a medical diagnosis.",
+
+    // Structured AI Responses
+    possibleCauses: "Possible Causes",
+    recommendedActions: "Recommended Actions",
+    severity: "Severity",
+    nextSteps: "Next Steps",
+    followUp: "Follow-up Questions",
+    mild: "Mild",
+    moderate: "Moderate",
+    severe: "Severe",
+    checkMeds: "Check Medicine Tracker",
+    contactEmergency: "Contact Emergency Support",
+    askDuration: "How long have you been feeling this way?",
+    askIntensity: "On a scale of 1-10, how intense is the discomfort?",
+    askMedsTaken: "Have you taken any medication for this yet?",
+    askOtherSymptoms: "Are you experiencing any other symptoms like nausea or vision changes?",
+    aiAcknowledge: "Thank you for sharing those details.",
+    aiSummary: "Based on everything you've told me, here is a summary of the situation and what you should do next:",
+    aiFinalNote: "Please keep me updated if anything changes or if you feel worse."
   },
   hi: {
     // Layout & Navigation
@@ -308,6 +316,22 @@ const translations = {
     emergencyHotlines: "आपातकालीन हॉटलाइन",
     nearbyHospitals: "पास के अस्पताल",
 
+    // Medicine Tracker
+    medicineTitle: "दवा ट्रैकर",
+    medicineSubtitle: "अपनी दवा के रिमाइंडर प्रबंधित करें",
+    addMedicine: "दवा जोड़ें",
+    addNewMedicine: "नई दवा जोड़ें",
+    medicineName: "दवा का नाम",
+    saveMedicine: "दवा सहेजें",
+    noMedicines: "अभी तक कोई दवा नहीं जोड़ी गई है।",
+    recommendedForYou: "आपकी स्थिति के लिए अनुशंसित",
+    addToList: "सूची में जोड़ें",
+    commonColdMeds: "पैरासिटामोल (बुखार के लिए), सेटिरिज़िन (बहती नाक के लिए), कफ सिरप",
+    gastroMeds: "ओआरएस (हाइड्रेशन के लिए), लोपेरामाइड (यदि गंभीर हो), प्रोबायोटिक्स",
+    dehydrationMeds: "इलेक्ट्रोलाइट्स (ओआरएस), भरपूर पानी, नारियल पानी",
+    viralFeverMeds: "पैरासिटामोल, विटामिन सी, भरपूर तरल पदार्थ",
+    allergyMeds: "एंटीहिस्टामाइन (लोराटैडिन), नाक स्प्रे",
+
     // AI Responses
     aiResponseTellMe: "मुझे बताएं कि आप क्या महसूस कर रहे हैं और कब से।",
     aiResponseUrgent: "यह तत्काल हो सकता है। कृपया अपने स्थानीय आपातकालीन नंबर पर कॉल करें या अभी निकटतम अस्पताल जाएं।\n\nयदि आप कर सकते हैं, तो साझा करें: अपना स्थान, लक्षण और यह कब शुरू हुआ।",
@@ -316,7 +340,26 @@ const translations = {
     aiResponseGI: "यह पेट की खराबी या भोजन से संबंधित समस्या लगती है।\n\nकोशिश करें:\n- मौखिक पुनर्जलीकरण / तरल पदार्थों के छोटे घूंट\n- यदि सहन किया जाता है तो हल्का भोजन\n- यदि रक्त, गंभीर दर्द, या निर्जलीकरण है तो देखभाल लें",
     aiResponseHeadache: "सिरदर्द के कई कारण हो सकते हैं (तनाव, निर्जलीकरण, नींद की समस्या)।\n\nकोशिश करें:\n- पानी और आराम\n- स्क्रीन टाइम कम करें\n- यदि यह अचानक/गंभीर है, कमजोरी, भ्रम, या दृष्टि परिवर्तन के साथ है तो देखभाल लें",
     aiResponseGeneral: "आपको बेहतर मार्गदर्शन करने के लिए, इनका उत्तर दें:\n- आपको क्या लक्षण हैं?\n- यह कब से शुरू हुआ?\n- कोई बुखार, सीने में दर्द, सांस लेने की समस्या, या गंभीर दर्द?\n- कोई मौजूदा स्थिति या वर्तमान दवाएं?",
-    aiResponseDisclaimer: "यह सामान्य जानकारी है, चिकित्सीय निदान नहीं।"
+    aiResponseDisclaimer: "यह सामान्य जानकारी है, चिकित्सीय निदान नहीं।",
+
+    // Structured AI Responses
+    possibleCauses: "संभावित कारण",
+    recommendedActions: "अनुशंसित कार्रवाई",
+    severity: "गंभीरता",
+    nextSteps: "अगले कदम",
+    followUp: "अनुवर्ती प्रश्न",
+    mild: "हल्का",
+    moderate: "मध्यम",
+    severe: "गंभीर",
+    checkMeds: "दवा ट्रैकर की जांच करें",
+    contactEmergency: "आपातकालीन सहायता से संपर्क करें",
+    askDuration: "आप कब से ऐसा महसूस कर रहे हैं?",
+    askIntensity: "1-10 के पैमाने पर, असुविधा कितनी तीव्र है?",
+    askMedsTaken: "क्या आपने इसके लिए अभी तक कोई दवा ली है?",
+    askOtherSymptoms: "क्या आप मतली या दृष्टि परिवर्तन जैसे किसी अन्य लक्षण का अनुभव कर रहे हैं?",
+    aiAcknowledge: "उन विवरणों को साझा करने के लिए धन्यवाद।",
+    aiSummary: "आपने मुझे जो कुछ भी बताया है उसके आधार पर, यहाँ स्थिति का सारांश दिया गया है और आपको आगे क्या करना चाहिए:",
+    aiFinalNote: "यदि कुछ भी बदलता है या यदि आप बुरा महसूस करते हैं तो कृपया मुझे अपडेट रखें।"
   },
   mr: {
     // Layout & Navigation
@@ -454,6 +497,22 @@ const translations = {
     emergencyHotlines: "आणीबाणी हॉटलाइन",
     nearbyHospitals: "जवळची रुग्णालये",
 
+    // Medicine Tracker
+    medicineTitle: "औषध ट्रॅकर",
+    medicineSubtitle: "तुमच्या औषधांचे स्मरणपत्रे व्यवस्थापित करा",
+    addMedicine: "औषध जोडा",
+    addNewMedicine: "नवीन औषध जोडा",
+    medicineName: "औषधाचे नाव",
+    saveMedicine: "औषध जतन करा",
+    noMedicines: "अद्याप कोणतीही औषधे जोडली नाहीत.",
+    recommendedForYou: "तुमच्या स्थितीसाठी शिफारस केलेले",
+    addToList: "यादीत जोडा",
+    commonColdMeds: "पॅरासिटामोल (तापासाठी), सेटिरिझिन (नाक वाहण्यासाठी), कफ सिरप",
+    gastroMeds: "ओआरएस (हायड्रेशनसाठी), लोपेरामाइड (तीव्र असल्यास), प्रोबायोटिक्स",
+    dehydrationMeds: "इलेक्ट्रोलाइट्स (ओआरएस), भरपूर पाणी, शहाळ्याचे पाणी",
+    viralFeverMeds: "पॅरासिटामोल, व्हिटॅमिन सी, भरपूर द्रव पदार्थ",
+    allergyMeds: "अँटीहिस्टामाइन्स (लोराटॅडिन), अनुनासिक स्प्रे",
+
     // AI Responses
     aiResponseTellMe: "तुम्हाला काय वाटतंय आणि कधीपासून ते मला सांगा.",
     aiResponseUrgent: "हे तातडीचे असू शकते. कृपया तुमच्या स्थानिक आपत्कालीन क्रमांकावर कॉल करा किंवा आत्ताच जवळच्या रुग्णालयात जा.\n\nतुम्ही शक्य असल्यास, शेअर करा: तुमचे स्थान, लक्षणे आणि ते कधी सुरू झाले.",
@@ -461,8 +520,27 @@ const translations = {
     aiResponseFever: "तुम्ही शेअर केलेल्या माहितीच्या आधारावर, हा व्हायरल आजार किंवा श्वसनमार्गाचा संसर्ग असू शकतो.\n\nप्रयत्न करा:\n- विश्रांती आणि द्रव पदार्थ\n- तापमानावर लक्ष ठेवा\n- ताप ३ दिवसांपेक्षा जास्त राहिल्यास, तुम्हाला अधिक वाईट वाटत असल्यास किंवा श्वास घेण्यास त्रास होत असल्यास वैद्यकीय सल्ला घ्या",
     aiResponseGI: "हे पोटाचे विकार किंवा अन्नाशी संबंधित समस्या वाटते.\n\nप्रयत्न करा:\n- ओरल रिहायड्रेशन / द्रव पदार्थांचे छोटे घोट\n- सहन होत असल्यास हलके अन्न\n- रक्त, तीव्र वेदना किंवा निर्जलीकरण असल्यास काळजी घ्या",
     aiResponseHeadache: "डोकेदुखीची अनेक कारणे असू शकतात (तणाव, निर्जलीकरण, झोपेच्या समस्या).\n\nप्रयत्न करा:\n- पाणी आणि विश्रांती\n- स्क्रीन वेळ कमी करा\n- जर ते अचानक/तीव्र असेल, अशक्तपणा, गोंधळ किंवा दृष्टी बदलांसह असेल तर काळजी घ्या",
-    aiResponseGeneral: "तुम्हाला अधिक चांगले मार्गदर्शन करण्यासाठी, यांची उत्तरे द्या:\n- तुम्हाला कोणती लक्षणे आहेत?\n- ते कधीपासून सुरू झाले?\n- ताप, छातीत दुखणे, श्वास घेण्यास त्रास किंवा तीव्र वेदना आहे का?\n- काही विद्यमान आजार किंवा सध्याची औषधे आहेत का?",
-    aiResponseDisclaimer: "ही सामान्य माहिती आहे, वैद्यकीय निदान नाही."
+    aiResponseGeneral: "तुम्हाला अधिक चांगले मार्गदर्शन करण्यासाठी, यांची उत्तरे द्या:\n- तुम्हाला कोणती लक्षणे आहेत?\n- ते कधीपासून सुरू झाले?\n- ताप, छातीत दुखणे, शळवास घेण्यास त्रास किंवा तीव्र वेदना आहे का?\n- काही विद्यमान आजार किंवा सध्याची औषधे आहेत का?",
+    aiResponseDisclaimer: "ही सामान्य माहिती आहे, वैद्यकीय निदान नाही।",
+
+    // Structured AI Responses
+    possibleCauses: "संभावित कारणे",
+    recommendedActions: "शिफारस केलेल्या कृती",
+    severity: "गंभीरता",
+    nextSteps: "पुढील पावले",
+    followUp: "अनुवर्ती प्रश्न",
+    mild: "सौम्य",
+    moderate: "मध्यम",
+    severe: "तीव्र",
+    checkMeds: "औषध ट्रॅकर तपासा",
+    contactEmergency: "आणीबाणीच्या मदतीसाठी संपर्क साधा",
+    askDuration: "तुम्हाला किती दिवसांपासून असे वाटत आहे?",
+    askIntensity: "1-10 च्या स्केलवर, त्रास किती तीव्र आहे?",
+    askMedsTaken: "तुम्ही यासाठी अद्याप काही औषध घेतले आहे का?",
+    askOtherSymptoms: "तुम्हाला मळमळ किंवा दृष्टी बदलण्यासारखी इतर काही लक्षणे जाणवत आहेत का?",
+    aiAcknowledge: "ते तपशील शेअर केल्याबद्दल धन्यवाद.",
+    aiSummary: "तुम्ही मला सांगितलेल्या सर्व गोष्टींच्या आधारे, परिस्थितीचा सारांश आणि तुम्ही पुढे काय करावे हे येथे आहे:",
+    aiFinalNote: "काही बदलल्यास किंवा तुम्हाला अधिक वाईट वाटल्यास कृपया मला अपडेट ठेवा."
   }
 };
 
